@@ -5,3 +5,7 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+//VmTRfXDe2JwOsmOv // пароль на MongoDB Atlas
+
+//mongodb+srv://valerysazanovich_db_user:VmTRfXDe2JwOsmOv@articles.vnxgelm.mongodb.net/?appName=articles
