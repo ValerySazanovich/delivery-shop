@@ -21,7 +21,6 @@ const NewProducts = async () => {
     return <div className="text-red-500">Ошибка: {error}</div>;
   }
 
-
   return (
     <section>
       <div className="flex flex-col justify-center xl:max-w-[1208px] ">
