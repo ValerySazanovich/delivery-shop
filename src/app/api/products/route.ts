@@ -1,4 +1,4 @@
-import { getDB } from "../../../../api-routers";
+import { getDB } from "../../../../utils/api-routers";
 import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 3600;
@@ -20,6 +20,9 @@ export async function GET(request: Request) {
     return NextResponse.json(products);
   } catch (error) {
     console.error("Ошибка сервера:", error);
-    return NextResponse.json({ message: "Ошибка при загрузке продуктов" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Ошибка при загрузке продуктов" },
+      { status: 500 }
+    );
   }
 }

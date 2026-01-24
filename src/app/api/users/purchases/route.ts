@@ -1,4 +1,4 @@
-import { getDB } from "../../../../../api-routers";
+import { getDB } from "../../../../../utils/api-routers";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -24,7 +24,7 @@ export async function GET() {
         void discountPercent;
         return rest;
       })
-    )
+    );
   } catch (error) {
     console.error("Ошибка сервера:", error);
     return NextResponse.json(
