@@ -1,5 +1,5 @@
 import fetchProductsByCategory from "../fetchProducts";
-import ProductsSection from "../ProductsSection";
+import GenericListPage from "../GenericListPage";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
@@ -7,18 +7,22 @@ export const metadata = {
   description: 'Новые товары магазина "Северяночка"',
 };
 
-const AllNew = async () => {
-  try {
-    const products = await fetchProductsByCategory("new");
-
-    return <ProductsSection
-    title="Все новинки"
-    viewAllButton={{text: "На главную", href: "/"}}
-    products={products}
-    />;
-  } catch {
-    return <div className="text-red-500">Ошибка: не удалось загрузить новинки</div>;
-  }
+const AllNew = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
+}) => {
+  return (
+    <GenericListPage
+      searchParams={searchParams}
+      props={{
+        fetchData: () => fetchProductsByCategory("new"),
+        pageTitle: " Все новинки",
+        basePath: "/new",
+        errorMessage: "Ошибка: не удалось загрузить новинки",
+      }}
+    />
+  );
 };
 
 export default AllNew;

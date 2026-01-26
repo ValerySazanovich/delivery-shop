@@ -1,19 +1,25 @@
+import { shuffleArray } from "../../../utils/shuffleArray";
 import fetchProductsByCategory from "./fetchProducts";
-import ProductsSection from "./ProductsSection";
+import ProductsSection from "../../components/ProductsSection";
 export const dynamic = "force-dynamic";
 
 const NewProducts = async () => {
   try {
-    const products = await fetchProductsByCategory("new");
+    let products = await fetchProductsByCategory("new");
+    products = shuffleArray(products);
 
-    return <ProductsSection
-    title="Новинки"
-    viewAllButton={{text: "Все новинки", href: "new"}}
-    products={products}
-    compact
-    />;
+    return (
+      <ProductsSection
+        title="Новинки"
+        viewAllButton={{ text: "Все новинки", href: "new" }}
+        products={products}
+        compact
+      />
+    );
   } catch {
-    return <div className="text-red-500">Ошибка: не удалось загрузить новинки</div>;
+    return (
+      <div className="text-red-500">Ошибка: не удалось загрузить новинки</div>
+    );
   }
 };
 

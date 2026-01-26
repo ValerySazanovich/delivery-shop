@@ -1,5 +1,5 @@
 import fetchPurchases from "./fetchPurchases";
-import ProductsSection from "../(products)/ProductsSection";
+import ProductsSection from "../../components/ProductsSection";
 
 const Purchases = async () => {
   try {
@@ -14,7 +14,11 @@ const Purchases = async () => {
       />
     );
   } catch {
-    return <div className="text-red-500">Ошибка: не удалось загрузить Ваши покупки</div>;
+    return (
+      <div className="text-red-500">
+        Ошибка: не удалось загрузить Ваши покупки
+      </div>
+    );
   }
 };
 
