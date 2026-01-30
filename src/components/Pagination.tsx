@@ -6,7 +6,7 @@ import Link from "next/link";
 const createPageUrl = (
   basePath: string,
   params: URLSearchParams,
-  page: number
+  page: number,
 ) => {
   const newParams = new URLSearchParams(params);
   newParams.set("page", page.toString());
@@ -60,8 +60,8 @@ const Pagination = ({
   const pageButtonClass = `border border-[#ff6633] ${buttonSize}`;
 
   return (
-    <div className="flex justify-center mt-10 mb-20 text-white text-sm md: text-base">
-      <nav className="flex gap-1 md: gap-2 items-center">
+    <div className="flex justify-center mt-10 mb-20 text-white text-sm md:text-base">
+      <nav className="flex gap-1 md:gap-2 items-center">
         <Link
           href={createPageUrl(basePath, params, 1)}
           aria-disabled={currentPage === 1}
@@ -101,7 +101,7 @@ const Pagination = ({
               className={`${pageButtonClass} ${
                 currentPage === page
                   ? "bg-[#ff6633] text-white border-transparent"
-                  : "text-[#ff6633] bg-white hover:bg-[#ff6633] hover:text-white hover:border-transparents"
+                  : "text-[#ff6633] bg-white hover:bg-[#ff6633] hover:text-white hover:border-transparent"
               }`}
             >
               {page}
@@ -110,7 +110,11 @@ const Pagination = ({
         })}
 
         <Link
-          href={createPageUrl(basePath, params, currentPage + 1)}
+          href={createPageUrl(
+            basePath,
+            params,
+            Math.min(totalPages, currentPage + 1),
+          )}
           aria-disabled={currentPage === totalPages}
           tabIndex={currentPage === totalPages ? -1 : undefined}
           className={`${buttonSize} ${

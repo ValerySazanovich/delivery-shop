@@ -2,7 +2,7 @@ import { ArticleCardProps } from "./articlesListPageProps";
 
 export interface ArticlesSectionProps {
   title: string;
-  viewAllButton: {
+  viewAllButton?: {
     text: string;
     href: string;
   };
