@@ -29,7 +29,7 @@ const ProductsSection = ({
                 ${index >= 3 ? "md:hidden xl:block" : ""}
                 `}
             >
-              <ProductCard {...item} />
+              <ProductCard {...item} priority={index === 0} />
             </li>
           ))}
         </ul>

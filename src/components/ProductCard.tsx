@@ -12,7 +12,8 @@ const ProductCard = ({
   basePrice,
   discountPercent = 0,
   rating,
-  categories,
+  tags,
+  priority = false,
 }: ProductCardProps) => {
   const calculateFinalPrice = (price: number, discount: number): number => {
     return discount > 0 ? price * (1 - discount / 100) : price;
@@ -22,7 +23,7 @@ const ProductCard = ({
     return calculateFinalPrice(price, discount);
   };
 
-  const isNewProduct = categories?.includes("new");
+  const isNewProduct = tags?.includes("new");
 
   const finalPrice = isNewProduct ? basePrice : calculateFinalPrice(basePrice, discountPercent);
 
@@ -31,14 +32,14 @@ const ProductCard = ({
   const ratingValue = rating?.rate || 5;
 
   return (
-    <div className="flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] align-top p-0 hover:shadow-(--shadow-article) duration-300">
-      <div className="relative w-40 h-40 md:w-[224px] xl:w-[272px]">
+    <div className="flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-56 xl:w-68 align-top p-0 hover:shadow-(--shadow-article) duration-300">
+      <div className="relative w-40 h-40 md:w-56 xl:w-68">
         <Image
           src={img}
           alt="Акция"
           fill
           className="object-contain"
-          priority={false}
+          priority={priority}
           sizes="(max-width: 768px) 160px, (max-width: 1280px) 224px, 272px"
         />
         <button className="w-8 h-8 p-2 bg-[#f3f2f1] hover:bg-[#fcd5ba] absolute top-2 right-2 opacity-50 rounded cursor-pointer duration-300">
@@ -78,7 +79,7 @@ const ProductCard = ({
             </div>
           )}
         </div>
-        <div className="h-13.5 text-xs md:text-base text-[#414141] line-clamp-3 md:line-clamp-2 leading-[1.5]">
+        <div className="h-13.5 text-xs md:text-base text-[#414141] line-clamp-3 md:line-clamp-2 leading-normal">
           {description}
         </div>
         {ratingValue > 0 && <StarRating rating={ratingValue} />}

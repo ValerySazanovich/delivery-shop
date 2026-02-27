@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import iconToRight from "/public/icons-products/icon-arrow-right.svg";
-import { PATH_TRANSLATIONS } from "../../utils/pathTranslations";
+import { TRANSLATIONS } from "../../utils/translations";
 
 
 const Breadcrumbs = () => {
@@ -16,7 +16,7 @@ const Breadcrumbs = () => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
     return {
       href,
-      label: PATH_TRANSLATIONS[segment] || segment,
+      label: TRANSLATIONS[segment] || segment,
       isLast: index === pathSegments.length - 1,
     };
   });

@@ -10,7 +10,8 @@ export interface ProductCardProps {
     rate: number;
     count: number;
   };
-  categories: string[];
+  tags: string[];
   weight?: string;
   quantity: number;
+  priority?: boolean;
 }
