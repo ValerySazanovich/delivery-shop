@@ -1,6 +1,5 @@
 import GenericListPage from "@/app/(products)/GenericListPage";
 import fetchPurchases from "../fetchPurchases";
-export const dynamic = "force-dynamic";
 
 const AllPurchases = async ({
   searchParams,
@@ -11,7 +10,7 @@ const AllPurchases = async ({
     <GenericListPage
       searchParams={searchParams}
       props={{
-        fetchData: () => fetchPurchases(),
+        fetchData: ({ pagination: { startIdx, perPage } }) => fetchPurchases({ pagination: { startIdx, perPage } }),
         pageTitle: " Все покупки",
         basePath: "/purchases",
         errorMessage: "Ошибка: не удалось загрузить покупки",

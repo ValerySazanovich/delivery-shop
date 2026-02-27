@@ -16,7 +16,9 @@ const AllNew = async ({
     <GenericListPage
       searchParams={searchParams}
       props={{
-        fetchData: () => fetchProductsByCategory("new"),
+        fetchData: ({ pagination: { startIdx, perPage } }) =>
+          fetchProductsByCategory("new", {
+            pagination: { startIdx, perPage } }),
         pageTitle: " Все новинки",
         basePath: "/new",
         errorMessage: "Ошибка: не удалось загрузить новинки",
