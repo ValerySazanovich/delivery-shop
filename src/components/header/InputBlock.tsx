@@ -5,11 +5,17 @@ import iconSearch from "/public/icons-header/icon-search.svg";
 import Link from "next/link";
 import iconBurger from "/public/icons-header/icon-burger-menu.svg";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { SearchProduct } from "@/types/searchProduct";
 import { TRANSLATIONS } from "../../../utils/translations";
 import HighlightText from "./HighlightText";
 
-const InputBlock = () => {
+const InputBlock = ({
+  onFocusChangeAction,
+}: {
+  onFocusChangeAction: (focused: boolean) => void;
+}) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -34,9 +40,8 @@ const InputBlock = () => {
       if (query.length > 1) {
         try {
           setIsLoading(true);
-          const response = await fetch(`/api/search?query=${query}`);
+          const response = await fetch(`/api/search?query=${query}`); // Проверьте наличие слэша перед api
           const data = await response.json();
-          console.log(data);
           setGroupedProducts(data);
         } catch (error) {
           console.error("Не найден продукт или категория", error);
@@ -53,6 +58,7 @@ const InputBlock = () => {
 
   const handleInputFocus = () => {
     setIsOpen(true);
+    onFocusChangeAction(true);
   };
 
   const resetSearch = () => {
@@ -60,29 +66,46 @@ const InputBlock = () => {
     setQuery("");
   };
 
-  return (
-    <div className="relative min-w-65.25 grow" ref={searchRef}>
-      <div className="relative rounded border border-(--color-primary) shadow-(--shadow-button-default) leading-[150%]">
-        <input
-          type="text"
-          value={query} // В уроке забыл добавить
-          placeholder="Найти товар"
-          className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base"
-          onFocus={handleInputFocus}
-          onChange={(e) => setQuery(e.target.value)}
-        />
+  const handleSearch = () => {
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+      resetSearch();
+    }
+  };
 
-        <Image
-          src={iconSearch}
-          alt="Поиск"
-          width={24}
-          height={24}
-          className="absolute top-2 right-2"
-        />
+  const handleInputBlur = () => {
+    onFocusChangeAction(false);
+  };
+
+  return (
+    <div className="relative min-w-[261px] flex-grow" ref={searchRef}>
+      <div className="relative rounded border-1 border-(--color-primary) shadow-(--shadow-button-default) leading-[150%]">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+        >
+          <input
+            type="text"
+            value={query}
+            placeholder="Найти товар"
+            className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base"
+            onFocus={handleInputFocus}
+            onChange={(e) => setQuery(e.target.value)}
+            onBlur={handleInputBlur}
+          />
+          <button
+            className="absolute top-2 right-2 w-6 h-6 cursor-pointer"
+            type="submit"
+          >
+            <Image src={iconSearch} alt="Поиск" width={24} height={24} />
+          </button>
+        </form>
       </div>
 
       {isOpen && (
-        <div className="absolute -mt-0.5 left-0 right-0 z-100 max-h-75 overflow-y-auto bg-white rounded-b border border-(--color-primary) border-t-0 shadow-inherit wrap-break-word">
+        <div className="absolute -mt-0.5 left-0 right-0 z-100 max-h-[300px] overflow-y-auto bg-white rounded-b border-1 border-(--color-primary) border-t-0 shadow-inherit break-words">
           {isLoading ? (
             <div className="p-4 text-center">Поиск...</div>
           ) : groupedProducts.length > 0 ? (
@@ -105,7 +128,7 @@ const InputBlock = () => {
                       alt={TRANSLATIONS[group.category] || group.category}
                       width={24}
                       height={24}
-                      className="shrink-0"
+                      className="flex-shrink-0"
                     />
                   </Link>
                   <ul className="flex flex-col gap-2">
