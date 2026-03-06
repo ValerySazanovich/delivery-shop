@@ -1,6 +1,7 @@
 import fetchProductsByTag from "./fetchProducts";
 import ProductsSection from "../../components/ProductsSection";
 import { CONFIG } from "../../../config/config";
+import ErrorComponent from "@/components/ErrorComponent";
 export const dynamic = "force-dynamic";
 
 const Actions = async () => {
@@ -16,9 +17,12 @@ const Actions = async () => {
         products={items}
       />
     );
-  } catch {
+  } catch (error) {
     return (
-      <div className="text-red-500">Ошибка: не удалось загрузить акции</div>
+      <ErrorComponent
+        error={error instanceof Error ? error : new Error(String(error))}
+        userMessage="Не удалось загрузить акции"
+      />
     );
   }
 };

@@ -5,6 +5,7 @@ import PaginationWrapper from "@/components/PaginationWrapper";
 import ArticleSection from "../(articles)/ArticlesSection";
 import { ProductCardProps } from "@/types/product";
 import { ArticleCardProps } from "@/types/articlesListPageProps";
+import ErrorComponent from "@/components/ErrorComponent";
 
 const GenericListPage = async ({
   searchParams,
@@ -52,8 +53,13 @@ const GenericListPage = async ({
         )}
       </>
     );
-  } catch {
-    return <div className="text-red-500">{props.errorMessage}</div>;
+  } catch (error) {
+    return (
+      <ErrorComponent
+        error={error instanceof Error ? error : new Error(String(error))}
+        userMessage="Не удалось получить элементы пагинации"
+      />
+    );
   }
 };
 
